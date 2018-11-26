@@ -28,7 +28,7 @@ while true; do
    read REPLY
    if [ ${REPLY} == "Y" ]; then
 	pID=$(ps -u $USER -ef | grep geekcashd | awk '{print $2}')
-	kill ${pID} && sleep 5     
+	sudo kill ${pID} && sleep 5     
     break
    else
       if [ ${REPLY} == "n" ]; then
