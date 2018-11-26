@@ -166,12 +166,12 @@ chmod 0700 ./checkdaemon.sh
 chmod 0700 ./clearlog.sh
 
 # Firewall security measures
-apt install ufw -y
-ufw allow $PORT
-ufw allow ssh
-ufw logging on
-ufw default allow outgoing
-ufw --force enable
+sudo apt install ufw -y
+sudo ufw allow $PORT
+sudo ufw allow ssh
+sudo ufw logging on
+sudo ufw default allow outgoing
+sudo ufw --force enable
 
 # Start GeekCash Deamon
 geekcashd
