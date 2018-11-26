@@ -176,5 +176,6 @@ sudo ufw --force enable
 # Start GeekCash Deamon
 geekcashd
 cd
+rm -rf geekcash
 # Reboot the server
 #reboot
