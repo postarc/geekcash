@@ -17,7 +17,7 @@ do
 done
 echo -e "\e[32mFree MN port address:$PORT\e[0m" 
 
-if [[ $EUID -eq 0 ]] && [ "$USER" == "root" ]; then
+if [[ $EUID -eq 0 ]] && [ "$USER" != "root" ]; then
    echo -e "${RED}$0 must be run whithout sudo.${NC}"
    exit 1
 fi 
