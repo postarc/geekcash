@@ -69,6 +69,7 @@ touch ~/.geekcash/geekcash.conf
 # Change the directory to ~/.geekcash
 cd ~/.geekcash/
 
+echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
 # Create the initial geekcash.conf file
 echo -e "rpcuser=${_rpcUserName}
 rpcpassword=${_rpcPassword}
@@ -89,8 +90,9 @@ cd
 
 # Download geekcash and put executable to /usr/local/bin
 
-echo "GeekCash downloading..."
-#wget -qO- --no-check-certificate --content-disposition https://github.com/GeekCash/geekcash/releases/download/v1.0.1.2/geekcash-1.0.1-x86_64-linux-gnu.tar.gz | tar -xzvf geekcash-1.0.1-x86_64-linux-gnu.tar.gz
+#wget -qO- --no-check-certificate --content-disposition 
+echo -e "\e[32mGeekCash downloading...\e[0m"
+https://github.com/GeekCash/geekcash/releases/download/v1.0.1.2/geekcash-1.0.1-x86_64-linux-gnu.tar.gz | tar -xzvf geekcash-1.0.1-x86_64-linux-gnu.tar.gz
 
 
 curl -LJO https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz
@@ -118,10 +120,19 @@ cp geekcash/makerun.sh masternode/geekcash
 cp geekcash/checkdaemon.sh masternode/geekcash
 cp geekcash/clearlog.sh masternode/geekcash
 
-# Change the directory to ~/masternode/
-cd ~/masternode/geekcash
+#Sentinel installing
+echo -e "\e[32mSentinel installing...\e[0m"
+sudo apt-get update
+sudo apt-get install python
+sudo apt-get -y install python-virtualenv
+
+cd ~ && cd .geekcash
+git clone https://github.com/geekcash/sentinel.git && cd sentinel
+virtualenv ./venv
+./venv/bin/pip install -r requirements.txt
 
 # Create a cronjob for making sure geekcashd runs after reboot
+echo -e "\e[32mCreate a cronjob for making sure geekcashd runs after reboot\e[0m"
 if ! crontab -l | grep "@reboot geekcashd"; then
   (crontab -l ; echo "@reboot geekcashd") | crontab -
 fi
@@ -141,25 +152,18 @@ if ! crontab -l | grep "~/masternode/geekcash/clearlog.sh"; then
   (crontab -l ; echo "0 0 */2 * * ~/masternode/geekcash/clearlog.sh") | crontab -
 fi
 
+# Create a cronjob for sentinel 
+if ! crontab -l | grep "cd /root/.geekcash/sentinel"; then
+  (crontab -l ; echo "* * * * * cd ~/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
+fi
+
+# Change the directory to ~/masternode/
+cd ~/masternode/geekcash
+
 # Give execute permission to the cron scripts
 chmod 0700 ./makerun.sh
 chmod 0700 ./checkdaemon.sh
 chmod 0700 ./clearlog.sh
-
-#Sentinel installing
-apt-get install python
-
-sudo apt-get update
-sudo apt-get -y install python-virtualenv
-
-cd ~ && cd .geekcash
-git clone https://github.com/geekcash/sentinel.git && cd sentinel
-virtualenv ./venv
-./venv/bin/pip install -r requirements.txt
-
-if ! crontab -l | grep "cd /root/.geekcash/sentinel"; then
-  (crontab -l ; echo "* * * * * cd ~/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
-fi
 
 # Firewall security measures
 apt install ufw -y
