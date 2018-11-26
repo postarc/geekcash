@@ -6,11 +6,11 @@ RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
 
-while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPC_PORT)" ]
+while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPCPORT)" ]
 do
-(( RPC_PORT--))
+(( RPCPORT--))
 done
-echo -e "\e[32mFree RPCPORT address:$RPC_PORT\e[0m"
+echo -e "\e[32mFree RPCPORT address:$RPCPORT\e[0m"
 while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $PORT)" ]
 do
 (( PORT++))
