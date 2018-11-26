@@ -153,7 +153,7 @@ if ! crontab -l | grep "~/masternode/geekcash/clearlog.sh"; then
 fi
 
 # Create a cronjob for sentinel 
-if ! crontab -l | grep "cd /root/.geekcash/sentinel"; then
+if ! crontab -l | grep "~/.geekcash/sentinel"; then
   (crontab -l ; echo "* * * * * cd ~/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
 fi
 
