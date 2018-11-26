@@ -17,15 +17,6 @@ do
 done
 echo -e "\e[32mFree MN port address:$PORT\e[0m" 
 
-CONFIG_FILE='wavi.conf'
-if [[ "$USER" == "root" ]]; then
-        CONFIGFOLDER="/root/.wavicore"
-		SCRIPTFOLDER="/root/wavi"
- else
-        CONFIGFOLDER="/home/$USER/.wavicore"
-		SCRIPTFOLDER="/home/$USER/wavi"
-fi
-
 if [[ $EUID -eq 0 ]]; then
    echo -e "${RED}$0 must be run whithout sudo.${NC}"
    exit 1
@@ -36,11 +27,9 @@ while true; do
    printf "~/.geekcash/ already exists! The installer will delete this folder. Continue anyway?(Y/n):"
    read REPLY
    if [ ${REPLY} == "Y" ]; then
-      #pID=$(ps -ef | grep geekcashd | awk '{print $2}')
-      #kill ${pID}
-      killall -v geekcashd && sleep 5     
-      
-      break
+	pID=$(ps -u $USER -ef | grep geekcashd | awk '{print $2}')
+	kill ${pID} && sleep 5     
+    break
    else
       if [ ${REPLY} == "n" ]; then
         exit
@@ -81,7 +70,7 @@ touch ~/.geekcash/geekcash.conf
 cd ~/.geekcash/
 
 # Create the initial geekcash.conf file
-echo "rpcuser=${_rpcUserName}
+echo -e "rpcuser=${_rpcUserName}
 rpcpassword=${_rpcPassword}
 rpcallowip=127.0.0.1
 rpcport=$RPCPORT
@@ -124,14 +113,13 @@ rm -rf ./geekcash-1.0.1-x86_64-linux-gnu.tar.gz
 rm -r masternode/geekcash
 mkdir -p masternode/geekcash
 
+# Download the appropriate scripts
+cp geekcash/makerun.sh masternode/geekcash
+cp geekcash/checkdaemon.sh masternode/geekcash
+cp geekcash/clearlog.sh masternode/geekcash
+
 # Change the directory to ~/masternode/
 cd ~/masternode/geekcash
-
-# Download the appropriate scripts
-wget https://raw.githubusercontent.com/GeekCash/masternode/master/makerun.sh
-wget https://raw.githubusercontent.com/GeekCash/masternode/master/checkdaemon.sh
-wget https://raw.githubusercontent.com/GeekCash/masternode/master/clearlog.sh
-
 
 # Create a cronjob for making sure geekcashd runs after reboot
 if ! crontab -l | grep "@reboot geekcashd"; then
@@ -160,7 +148,7 @@ chmod 0700 ./clearlog.sh
 
 # Firewall security measures
 apt install ufw -y
-ufw allow 6889
+ufw allow $PORT
 ufw allow ssh
 ufw logging on
 ufw default allow outgoing
