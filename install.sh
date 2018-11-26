@@ -146,6 +146,21 @@ chmod 0700 ./makerun.sh
 chmod 0700 ./checkdaemon.sh
 chmod 0700 ./clearlog.sh
 
+#Sentinel installing
+apt-get install python
+
+sudo apt-get update
+sudo apt-get -y install python-virtualenv
+
+cd ~ && cd .geekcash
+git clone https://github.com/geekcash/sentinel.git && cd sentinel
+virtualenv ./venv
+./venv/bin/pip install -r requirements.txt
+
+if ! crontab -l | grep "cd /root/.geekcash/sentinel"; then
+  (crontab -l ; echo "* * * * * cd ~/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
+fi
+
 # Firewall security measures
 apt install ufw -y
 ufw allow $PORT
