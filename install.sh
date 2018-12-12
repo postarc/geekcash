@@ -102,9 +102,10 @@ tar -xzvf ./geekcash-1.0.1-x86_64-linux-gnu.tar.gz
 chmod +x ./geekcash-1.0.1/bin/
 
 
-echo "Put executable to /usr/bin"
-cp ./geekcash-1.0.1/bin/geekcashd /usr/bin/
-cp ./geekcash-1.0.1/bin/geekcash-cli /usr/bin/
+echo -e "\e[32mPut executable to /usr/bin\e[0m"
+
+sudo bash -c "cp ./geekcash-1.0.1/bin/geekcashd /usr/local/bin/"
+sudo bash -c "./geekcash-1.0.1/bin/geekcash-cli /usr/local/bin/"
 
 
 rm -rf ./geekcash-1.0.1
@@ -133,8 +134,8 @@ virtualenv ./venv
 
 # Create a cronjob for making sure geekcashd runs after reboot
 echo -e "\e[32mCreate a cronjob for making sure geekcashd runs after reboot\e[0m"
-if ! crontab -l | grep "@reboot geekcashd"; then
-  (crontab -l ; echo "@reboot geekcashd") | crontab -
+if ! crontab -l | grep "@reboot /usr/local/bin/geekcashd"; then
+  (crontab -l ; echo "@reboot /usr/local/bin/geekcashd") | crontab -
 fi
 
 # Create a cronjob for making sure geekcashd is always running
