@@ -98,8 +98,10 @@ echo -e "\e[32mGeekCash downloading...\e[0m"
 
 echo "get and unzip..."
 
-wget $BINADDR 
+mkdir temp
+cd temp
 
+wget $BINADDR 
 tar -xzvf $BINTAR
 
 #curl -LJO $BINADDR
@@ -110,7 +112,8 @@ sudo bash -c "cp ./$BPATH/geekcashd /usr/local/bin/"
 sudo bash -c "cp ./$BPATH/geekcash-cli /usr/local/bin/"
 sudo chmod +x /usr/local/bin/geekcash*
 
-rm -rf $BPATH
+cd 
+rm -rf temp
 
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
