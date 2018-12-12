@@ -172,7 +172,8 @@ chmod 0700 ./clearlog.sh
 
 # Firewall security measures
 sudo apt install ufw -y
-sudo ufw allow $PORT
+sudo ufw allow $PORT/tcp
+sudo ufw allow $RPCPORT/tcp
 sudo ufw allow ssh
 sudo ufw logging on
 sudo ufw default allow outgoing
