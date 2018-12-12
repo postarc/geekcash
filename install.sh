@@ -2,6 +2,9 @@
 # install.sh
 # Installs masternode on Ubuntu 16.04 x64 & Ubuntu 18.04
 # ATTENTION: The anti-ddos part will disable http, https and dns ports.
+BINTAR='geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
+BINADDR='https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
+PATH='geekcash-1.0.1/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
@@ -92,24 +95,20 @@ cd
 
 #wget -qO- --no-check-certificate --content-disposition 
 echo -e "\e[32mGeekCash downloading...\e[0m"
-https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz | tar -xzvf geekcash-1.0.1-x86_64-linux-gnu.tar.gz
 
+echo "get and unzip..."
 
-curl -LJO https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz
+wget $BINADDR | tar -xzvf $BINTAR
 
-echo "unzip..."
-tar -xzvf ./geekcash-1.0.1-x86_64-linux-gnu.tar.gz
-chmod +x ./geekcash-1.0.1/bin/
-
+#curl -LJO $BINADDR
+#tar -xzvf $BINTAR
 
 echo -e "\e[32mPut executable to /usr/bin\e[0m"
+sudo bash -c "cp $PATH/geekcashd /usr/local/bin/"
+sudo bash -c "cp $PATH/geekcash-cli /usr/local/bin/"
+chmod +x /usr/local/bin/geekcash*
 
-sudo bash -c "cp ./geekcash-1.0.1/bin/geekcashd /usr/local/bin/"
-sudo bash -c "./geekcash-1.0.1/bin/geekcash-cli /usr/local/bin/"
-
-
-rm -rf ./geekcash-1.0.1
-rm -rf ./geekcash-1.0.1-x86_64-linux-gnu.tar.gz
+rm -rf $PATH
 
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
