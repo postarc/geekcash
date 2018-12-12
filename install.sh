@@ -4,7 +4,7 @@
 # ATTENTION: The anti-ddos part will disable http, https and dns ports.
 BINTAR='geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
 BINADDR='https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
-PATH='geekcash-1.0.1/bin'
+BPATH='geekcash-1.0.1/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
@@ -104,11 +104,11 @@ wget $BINADDR | tar -xzvf $BINTAR
 #tar -xzvf $BINTAR
 
 echo -e "\e[32mPut executable to /usr/bin\e[0m"
-sudo bash -c "cp $PATH/geekcashd /usr/local/bin/"
-sudo bash -c "cp $PATH/geekcash-cli /usr/local/bin/"
+sudo bash -c "cp $BPATH/geekcashd /usr/local/bin/"
+sudo bash -c "cp $BPATH/geekcash-cli /usr/local/bin/"
 chmod +x /usr/local/bin/geekcash*
 
-rm -rf $PATH
+rm -rf $BPATH
 
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
