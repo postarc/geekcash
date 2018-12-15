@@ -9,6 +9,9 @@ RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
 
+sudo apt-get install -y curl
+sudo apt-get install -y lsof
+
 while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPCPORT)" ]
 do
 (( RPCPORT--))
