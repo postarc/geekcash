@@ -2,9 +2,9 @@
 # install.sh
 # Installs masternode on Ubuntu 16.04 x64 & Ubuntu 18.04
 # ATTENTION: The anti-ddos part will disable http, https and dns ports.
-BINTAR='geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
-BINADDR='https://github.com/GeekCash/geekcash/releases/download/v1.0.1.3/geekcash-1.0.1-x86_64-linux-gnu.tar.gz'
-BPATH='geekcash-1.0.1/bin'
+BINTAR='geekcash-1.2.0-x86_64-linux-gnu.tar.gz'
+BINADDR='https://github.com/GeekCash/geekcash/releases/download/v1.2.0.1/geekcash-1.2.0-x86_64-linux-gnu.tar.gz'
+BPATH='geekcash-1.2.0/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
