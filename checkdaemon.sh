@@ -11,5 +11,5 @@ geekcash-cli getblockcount > ~/masternode/geekcash/blockcount
 
 if [ "$previousBlock" == "$currentBlock" ]; then
   geekcash-cli stop
-  geekcashd01
+  geekcashd
 fi
