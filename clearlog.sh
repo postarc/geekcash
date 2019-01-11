@@ -4,4 +4,4 @@
 # Add the following to the crontab (i.e. crontab -e)
 # 0 0 */2 * * ~/masternode/geekcash/clearlog.sh
 
-/bin/date > ~/.geekcash01/debug.log
+/bin/date > ~/.geekcash/debug.log
