@@ -8,6 +8,8 @@ BPATH='geekcash-1.2.0/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
+TRYCOUNT=7
+WAITP=5
 
 sudo apt-get install -y curl
 sudo apt-get install -y lsof
@@ -99,10 +101,23 @@ if [[ -z "$_nodePrivateKey" ]]; then
    exit 1
   fi
 _nodePrivateKey=$(geekcash-cli masternode genkey)
+ERROR=$?
+while [ "$ERROR" -gt "0" ] && [ "$TRYCOUNT" -gt "0" ]
+do
+  sleep $WAITP
+ _nodePrivateKey=$(geekcash-cli masternode genkey)
+  ERROR=$?
+    if [ "$ERROR" -gt "0" ];  then
+      echo "Wallet not fully loaded. Let us wait and try again to generate the Private Key"
+    fi
+  TRYCOUNT=$[TRYCOUNT-1]
+  done
 geekcash-cli stop
 sleep 5
 fi
-
+if [[ -z "$_nodePrivateKey" ]]; then 
+echo "Masternode key could not be generated. Edit the config file manually."
+fi
 echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
 # Write masternode privat key to geekcash.conf file
 echo -e "
