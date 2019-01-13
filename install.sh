@@ -88,7 +88,6 @@ logtimestamps=1
 maxconnections=64
 txindex=1
 ${external_ip_line}
-masternodeprivkey=${_nodePrivateKey}
 port=$PORT
 " > geekcash.conf
 
