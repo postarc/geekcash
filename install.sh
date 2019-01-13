@@ -66,9 +66,9 @@ else
   external_ip_line="#externalip=external_IP_goes_here:$COIN_PORT"
 fi
 # Make a new directory for geekcash daemon
-rm -rf ~/.geekcash/
-mkdir ~/.geekcash/
-touch ~/.geekcash/geekcash.conf
+rm  ~/.geekcash/*
+#mkdir ~/.geekcash/
+#touch ~/.geekcash/geekcash.conf
 
 # Change the directory to ~/.geekcash
 cd ~/.geekcash/
