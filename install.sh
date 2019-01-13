@@ -130,29 +130,25 @@ masternodeprivkey=${_nodePrivateKey}
 cd
 
 # Download geekcash and put executable to /usr/local/bin
-
 #wget -qO- --no-check-certificate --content-disposition 
-echo -e "\e[32mGeekCash downloading...\e[0m"
-
-echo "get and unzip..."
-
-mkdir temp
-cd temp
-
-wget $BINADDR 
-tar -xzvf $BINTAR
-
-#curl -LJO $BINADDR
-#tar -xzvf $BINTAR
-
-echo -e "\e[32mPut executable to /usr/bin\e[0m"
-sudo bash -c "cp ./$BPATH/geekcashd /usr/local/bin/"
-sudo bash -c "cp ./$BPATH/geekcash-cli /usr/local/bin/"
-sudo chmod +x /usr/local/bin/geekcash*
-
-cd 
-rm -rf temp
-
+if [ -f "/usr/local/bin/geekcashd" ]; then
+    echo -e "\e[32mBin files exist, skipping copy.\e[0m"
+else
+	echo -e "\e[32mGeekCash downloading...\e[0m"
+	echo "get and unzip..."
+	mkdir temp
+	cd temp
+	wget $BINADDR 
+	tar -xzvf $BINTAR
+	#curl -LJO $BINADDR
+	#tar -xzvf $BINTAR
+	echo -e "\e[32mPut executable to /usr/local/bin\e[0m"
+	sudo bash -c "cp ./$BPATH/geekcashd /usr/local/bin/"
+	sudo bash -c "cp ./$BPATH/geekcash-cli /usr/local/bin/"
+	sudo chmod +x /usr/local/bin/geekcash*
+	cd 
+	rm -rf temp
+fi 
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
 #rm -rf masternode/geekcash
