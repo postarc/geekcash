@@ -9,7 +9,7 @@ RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
 TRYCOUNT=7
-WAITP=5
+WAITP=10
 
 sudo apt-get install -y curl
 sudo apt-get install -y lsof
