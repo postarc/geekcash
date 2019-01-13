@@ -10,6 +10,11 @@ PORT=6889
 COIN_PORT=6889
 TRYCOUNT=7
 WAITP=10
+if [[ "$USER" == "root" ]]; then
+        HOMEFOLDER="/root"
+else
+        HOMEFOLDER="/home/$USER"
+fi
 
 sudo apt-get install -y curl
 sudo apt-get install -y lsof
@@ -169,6 +174,21 @@ git clone https://github.com/geekcash/sentinel.git && cd sentinel
 virtualenv ./venv
 ./venv/bin/pip install -r requirements.txt
 
+# Create sentinel.conf file
+echo -e "
+# specify path to geekcash.conf or leave blank
+# default is the same as GeekCash
+geekcash_conf=$HOMEFOLDER/.geekcash/geekcash.conf
+
+# valid options are mainnet, testnet (default=mainnet)
+network=mainnet
+#network=testnet
+
+# database connection details
+db_name=database/sentinel.db
+db_driver=sqlite
+" > sentinel.conf
+
 # Create a cronjob for making sure geekcashd runs after reboot
 echo -e "\e[32mCreate a cronjob for making sure geekcashd runs after reboot\e[0m"
 if ! crontab -l | grep "@reboot /usr/local/bin/geekcashd"; then
@@ -182,21 +202,21 @@ fi
 
 # Create a cronjob for making sure the daemon is never stuck
 if ! crontab -l | grep "~/masternode/geekcash/checkdaemon.sh"; then
-  (crontab -l ; echo "*/30 * * * * ~/masternode/geekcash/checkdaemon.sh") | crontab -
+  (crontab -l ; echo "*/30 * * * * $HOMEFOLDER/masternode/geekcash/checkdaemon.sh") | crontab -
 fi
 
 # Create a cronjob for clearing the log file
 if ! crontab -l | grep "~/masternode/geekcash/clearlog.sh"; then
-  (crontab -l ; echo "0 0 */2 * * ~/masternode/geekcash/clearlog.sh") | crontab -
+  (crontab -l ; echo "0 0 */2 * * $HOMEFOLDER/masternode/geekcash/clearlog.sh") | crontab -
 fi
 
 # Create a cronjob for sentinel 
 if ! crontab -l | grep "~/.geekcash/sentinel"; then
-  (crontab -l ; echo "* * * * * cd ~/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
+  (crontab -l ; echo -e "* * * * * cd $HOMEFOLDER/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
 fi
 
 # Change the directory to ~/masternode/
-cd ~/masternode/geekcash
+cd $HOMEFOLDER/masternode/geekcash
 
 # Give execute permission to the cron scripts
 chmod 0700 ./makerun.sh
