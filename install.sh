@@ -99,6 +99,8 @@ if [[ -z "$_nodePrivateKey" ]]; then
    exit 1
   fi
 _nodePrivateKey=$(geekcash-cli masternode genkey)
+geekcash-cli stop
+sleep 5
 fi
 
 echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
