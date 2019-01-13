@@ -48,10 +48,6 @@ done
 
 cd
 
-# Get a new privatekey by going to console >> debug and typing masternode genkey
-printf "Enter Masternode PrivateKey: "
-read _nodePrivateKey
-
 # The RPC node will only accept connections from your localhost
 _rpcUserName=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12 ; echo '')
 
@@ -87,11 +83,31 @@ daemon=1
 logtimestamps=1
 maxconnections=64
 txindex=1
-masternode=1
 ${external_ip_line}
 masternodeprivkey=${_nodePrivateKey}
 port=$PORT
 " > geekcash.conf
+
+# Get a new privatekey by going to console >> debug and typing masternode genkey
+printf "Enter Masternode PrivateKey: "
+read _nodePrivateKey
+if [[ -z "$_nodePrivateKey" ]]; then
+  geekcashd -daemon
+  sleep 5
+  if [ -z "$(ps axo cmd:100 | grep geekcashd)" ]; then
+   echo -e "${GREEN}$COIN_NAME server couldn not start."
+   exit 1
+  fi
+_nodePrivateKey=$(geekcash-cli masternode genkey)
+fi
+
+echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
+# Write masternode privat key to geekcash.conf file
+echo -e "
+masternode=1
+masternodeprivkey=${_nodePrivateKey}
+" >> geekcash.conf
+
 cd
 
 # Download geekcash and put executable to /usr/local/bin
