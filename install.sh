@@ -44,6 +44,7 @@ while true; do
       fi
    fi
  else
+   mkdir ~/.geekcash
    break
  fi
 done
@@ -73,7 +74,6 @@ rm  ~/.geekcash/*
 #touch ~/.geekcash/geekcash.conf
 
 # Change the directory to ~/.geekcash
-if [ ! -d "~/.geekcash" ] ; then mkdir ~/.geekcash ; fi
 cd ~/.geekcash/
 echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
 # Create the initial geekcash.conf file
