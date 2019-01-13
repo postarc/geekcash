@@ -67,7 +67,7 @@ else
 fi
 # Make a new directory for geekcash daemon
 rm -rf ~/.geekcash/backups
-rm -rf ~/..geekcash/sentinel
+rm -rf ~/.geekcash/sentinel
 rm  ~/.geekcash/*
 #mkdir ~/.geekcash/
 #touch ~/.geekcash/geekcash.conf
