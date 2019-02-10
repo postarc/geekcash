@@ -10,6 +10,7 @@ currentBlock=$(geekcash-cli getblockcount)
 geekcash-cli getblockcount > ~/masternode/geekcash/blockcount
 
 if [ "$previousBlock" == "$currentBlock" ]; then
-  geekcash-cli stop
+  pID=$(ps -u $USER | grep geekcashd | awk '{print $1}')
+	kill -9 ${pID}
   geekcashd
 fi
