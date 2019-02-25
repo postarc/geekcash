@@ -44,7 +44,6 @@ if [ -d .geekcash ]; then
 	rm -rf ~/.geekcash
    fi
 fi
-done
 mkdir .geekcash
 
 # The RPC node will only accept connections from your localhost
