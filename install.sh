@@ -8,8 +8,8 @@ BPATH='geekcash-1.3.0/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
-TRYCOUNT=7
-WAITP=10
+TRYCOUNT=15
+WAITP=3
 if [[ "$USER" == "root" ]]; then
         HOMEFOLDER="/root"
 else
@@ -101,20 +101,21 @@ printf "Enter Masternode PrivateKey: "
 read _nodePrivateKey
 if [[ -z "$_nodePrivateKey" ]]; then
   geekcashd -daemon
-  sleep 5
+  sleep 2
   if [ -z "$(ps axo cmd:100 | grep geekcashd)" ]; then
    echo -e "${GREEN}$COIN_NAME server couldn not start."
    exit 1
   fi
 _nodePrivateKey=$(geekcash-cli masternode genkey)
 ERROR=$?
+if [ "$ERROR" -gt "0" ] echo -n "Daemon starting, please wait ...."
 while [ "$ERROR" -gt "0" ] && [ "$TRYCOUNT" -gt "0" ]
 do
   sleep $WAITP
  _nodePrivateKey=$(geekcash-cli masternode genkey)
   ERROR=$?
     if [ "$ERROR" -gt "0" ];  then
-      echo "Wallet not fully loaded. Let us wait and try again to generate the Private Key"
+      echo -n "."
     fi
   TRYCOUNT=$[TRYCOUNT-1]
   done
