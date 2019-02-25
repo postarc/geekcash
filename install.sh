@@ -2,9 +2,9 @@
 # install.sh
 # Installs masternode on Ubuntu 16.04 x64 & Ubuntu 18.04
 # ATTENTION: The anti-ddos part will disable http, https and dns ports.
-BINTAR='geekcash-1.2.0-x86_64-linux-gnu.tar.gz'
-BINADDR='https://github.com/GeekCash/geekcash/releases/download/v1.2.0.1/geekcash-1.2.0-x86_64-linux-gnu.tar.gz'
-BPATH='geekcash-1.2.0/bin'
+BINTAR='geekcash-1.3.0-x86_64-linux-gnu.tar.gz'
+BINADDR='https://github.com/GeekCash/geek/releases/download/v1.3.0.1/geekcash-1.3.0-x86_64-linux-gnu.tar.gz'
+BPATH='geekcash-1.3.0/bin'
 RPCPORT=6888
 PORT=6889
 COIN_PORT=6889
@@ -133,9 +133,13 @@ masternodeprivkey=${_nodePrivateKey}
 
 cd
 
-# Download geekcash and put executable to /usr/local/bin
-#wget -qO- --no-check-certificate --content-disposition 
+# Download geekcash and put executable to /usr/bin
+#wget -qO- --no-check-certificate --content-disposition
 if [ -f "/usr/local/bin/geekcashd" ]; then
+rm /usr/local/bin/geekcashd
+rm /usr/local/bin/geekcash-cli
+fi
+if [ -f "/usr/bin/geekcashd" ]; then
     echo -e "\e[32mBin files exist, skipping copy.\e[0m"
 else
 	echo -e "\e[32mGeekCash downloading...\e[0m"
@@ -146,10 +150,10 @@ else
 	tar -xzvf $BINTAR
 	#curl -LJO $BINADDR
 	#tar -xzvf $BINTAR
-	echo -e "\e[32mPut executable to /usr/local/bin\e[0m"
-	sudo bash -c "cp ./$BPATH/geekcashd /usr/local/bin/"
-	sudo bash -c "cp ./$BPATH/geekcash-cli /usr/local/bin/"
-	sudo chmod +x /usr/local/bin/geekcash*
+	echo -e "\e[32mPut executable to /usr/bin\e[0m"
+	sudo bash -c "cp ./$BPATH/geekcashd /usr/bin/"
+	sudo bash -c "cp ./$BPATH/geekcash-cli /usr/bin/"
+	sudo chmod +x /usr/bin/geekcash*
 	cd 
 	rm -rf temp
 fi 
@@ -191,8 +195,8 @@ db_driver=sqlite
 
 # Create a cronjob for making sure geekcashd runs after reboot
 echo -e "\e[32mCreate a cronjob for making sure geekcashd runs after reboot\e[0m"
-if ! crontab -l | grep "@reboot /usr/local/bin/geekcashd"; then
-  (crontab -l ; echo "@reboot /usr/local/bin/geekcashd") | crontab -
+if ! crontab -l | grep "@reboot /usr/bin/geekcashd"; then
+  (crontab -l ; echo "@reboot /usr/bin/geekcashd") | crontab -
 fi
 
 # Create a cronjob for making sure geekcashd is always running
