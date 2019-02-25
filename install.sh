@@ -106,7 +106,7 @@ if [[ -z "$_nodePrivateKey" ]]; then
   fi
 _nodePrivateKey=$(geekcash-cli masternode genkey)
 ERROR=$?
-if [[ "$ERROR" -gt "0" ]]; echo -n "Daemon starting, please wait ...." ; fi
+if [[ "$ERROR" -gt "0" ]]; then echo -n "Daemon starting, please wait ...."; fi
 while [ "$ERROR" -gt "0" ] && [ "$TRYCOUNT" -gt "0" ]
 do
   sleep $WAITP
