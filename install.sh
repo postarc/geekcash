@@ -72,32 +72,15 @@ fi
 #mkdir ~/.geekcash/
 #touch ~/.geekcash/geekcash.conf
 
-# Change the directory to ~/.geekcash
-cd ~/.geekcash/
-echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
-# Create the initial geekcash.conf file
-echo -e "rpcuser=${_rpcUserName}
-rpcpassword=${_rpcPassword}
-rpcallowip=127.0.0.1
-rpcport=$RPCPORT
-listen=1
-server=1
-daemon=1
-logtimestamps=1
-maxconnections=64
-txindex=1
-${external_ip_line}
-port=$PORT
-" > geekcash.conf
-
 # Download geekcash and put executable to /usr/bin
+echo -e "\e[32mChecking bin files...\e[0m"
 #wget -qO- --no-check-certificate --content-disposition
 if [ -f "/usr/local/bin/geekcashd" ]; then
 rm /usr/local/bin/geekcashd
 rm /usr/local/bin/geekcash-cli
 fi
 if [ -f "/usr/bin/geekcashd" ]; then
-    echo -e "\e[32mBin files exist, skipping copy.\e[0m"
+    echo -e "\e[32mBin files exist, skipping copy\e[0m"
 else
         echo -e "\e[32mGeekCash downloading...\e[0m"
         echo "get and unzip..."
@@ -113,6 +96,24 @@ else
         sudo chmod +x /usr/bin/geekcash*
         rm -rf temp
 fi 
+
+# Change the directory to ~/.geekcash
+cd ~/.geekcash/
+echo -e "\e[32mCreate the initial geekcash.conf file...\e[0m"
+# Create the initial geekcash.conf file
+echo -e "rpcuser=${_rpcUserName}
+rpcpassword=${_rpcPassword}
+rpcallowip=127.0.0.1
+rpcport=$RPCPORT
+listen=1
+server=1
+daemon=1
+logtimestamps=1
+maxconnections=64
+txindex=1
+${external_ip_line}
+port=$PORT
+" > geekcash.conf
 
 # Get a new privatekey by going to console >> debug and typing masternode genkey
 printf "Enter Masternode PrivateKey: "
@@ -141,29 +142,27 @@ fi
 if [[ -z "$_nodePrivateKey" ]]; then 
 echo "Masternode key could not be generated. Edit the config file manually."
 fi
-echo -e "\e[32mCreate the initial geekcash.conf file\e[0m"
 # Write masternode privat key to geekcash.conf file
 echo -e "
 masternode=1
 masternodeprivkey=${_nodePrivateKey}
 " >> geekcash.conf
-
 cd
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
-#rm -rf masternode/geekcash
 mkdir -p masternode/geekcash
 
 # Download the appropriate scripts
+echo -e "\e[32mCopy scripts...\e[0m"
 cp geekcash/makerun.sh masternode/geekcash
 cp geekcash/checkdaemon.sh masternode/geekcash
 cp geekcash/clearlog.sh masternode/geekcash
 
 #Sentinel installing
 echo -e "\e[32mSentinel installing...\e[0m"
-sudo apt-get update
-sudo apt-get install python
-sudo apt-get -y install python-virtualenv
+sudo apt-get update >/dev/null 2>&1
+sudo apt-get install python >/dev/null 2>&1
+sudo apt-get -y install python-virtualenv >/dev/null 2>&1
 
 cd ~ && cd .geekcash
 git clone https://github.com/geekcash/sentinel.git && cd sentinel
