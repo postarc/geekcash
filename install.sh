@@ -41,18 +41,17 @@ while true; do
    read REPLY
    if [ "$REPLY" == "y" ] || [ "$REPLY" == "" ] || [ "$REPLY" == "Y" ]; then
 	pID=$(ps -u $USER -ef | grep geekcashd | awk '{print $2}')
-	sudo kill ${pID} && sleep 5     
-    break
+	sudo kill ${pID} && sleep 5
+	rm -rf ~/.geekcash
+	
+   break
    else
      exit
    fi
- else
-   mkdir ~/.geekcash
-   break
  fi
 done
-
 cd
+mkdir .geekcash
 
 # The RPC node will only accept connections from your localhost
 _rpcUserName=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12 ; echo '')
@@ -70,9 +69,6 @@ else
   external_ip_line="#externalip=external_IP_goes_here:$COIN_PORT"
 fi
 # Make a new directory for geekcash daemon
-rm -rf ~/.geekcash/backups
-rm -rf ~/.geekcash/sentinel
-rm  ~/.geekcash/*
 #mkdir ~/.geekcash/
 #touch ~/.geekcash/geekcash.conf
 
@@ -93,6 +89,31 @@ txindex=1
 ${external_ip_line}
 port=$PORT
 " > geekcash.conf
+
+# Download geekcash and put executable to /usr/bin
+#wget -qO- --no-check-certificate --content-disposition
+if [ -f "/usr/local/bin/geekcashd" ]; then
+rm /usr/local/bin/geekcashd
+rm /usr/local/bin/geekcash-cli
+fi
+if [ -f "/usr/bin/geekcashd" ]; then
+    echo -e "\e[32mBin files exist, skipping copy.\e[0m"
+else
+        echo -e "\e[32mGeekCash downloading...\e[0m"
+        echo "get and unzip..."
+        mkdir temp
+        cd temp
+        wget $BINADDR 
+        tar -xzvf $BINTAR
+        #curl -LJO $BINADDR
+        #tar -xzvf $BINTAR
+        echo -e "\e[32mPut executable to /usr/bin\e[0m"
+        sudo bash -c "cp ./$BPATH/geekcashd /usr/bin/"
+        sudo bash -c "cp ./$BPATH/geekcash-cli /usr/bin/"
+        sudo chmod +x /usr/bin/geekcash*
+        cd 
+        rm -rf temp
+fi 
 
 # Get a new privatekey by going to console >> debug and typing masternode genkey
 printf "Enter Masternode PrivateKey: "
@@ -131,31 +152,6 @@ masternodeprivkey=${_nodePrivateKey}
 " >> geekcash.conf
 
 cd
-
-# Download geekcash and put executable to /usr/bin
-#wget -qO- --no-check-certificate --content-disposition
-if [ -f "/usr/local/bin/geekcashd" ]; then
-rm /usr/local/bin/geekcashd
-rm /usr/local/bin/geekcash-cli
-fi
-if [ -f "/usr/bin/geekcashd" ]; then
-    echo -e "\e[32mBin files exist, skipping copy.\e[0m"
-else
-	echo -e "\e[32mGeekCash downloading...\e[0m"
-	echo "get and unzip..."
-	mkdir temp
-	cd temp
-	wget $BINADDR 
-	tar -xzvf $BINTAR
-	#curl -LJO $BINADDR
-	#tar -xzvf $BINTAR
-	echo -e "\e[32mPut executable to /usr/bin\e[0m"
-	sudo bash -c "cp ./$BPATH/geekcashd /usr/bin/"
-	sudo bash -c "cp ./$BPATH/geekcash-cli /usr/bin/"
-	sudo chmod +x /usr/bin/geekcash*
-	cd 
-	rm -rf temp
-fi 
 
 # Create a directory for masternode's cronjobs and the anti-ddos script
 #rm -rf masternode/geekcash
