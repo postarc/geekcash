@@ -192,22 +192,22 @@ if ! crontab -l | grep "@reboot /usr/bin/geekcashd"; then
 fi
 
 # Create a cronjob for making sure geekcashd is always running
-if ! crontab -l | grep "~/masternode/geekcash/makerun.sh"; then
+if ! crontab -l | grep "masternode/geekcash/makerun.sh"; then
   (crontab -l ; echo "*/5 * * * * ~/masternode/geekcash/makerun.sh") | crontab -
 fi
 
 # Create a cronjob for making sure the daemon is never stuck
-if ! crontab -l | grep "~/masternode/geekcash/checkdaemon.sh"; then
+if ! crontab -l | grep "masternode/geekcash/checkdaemon.sh"; then
   (crontab -l ; echo "*/30 * * * * $HOMEFOLDER/masternode/geekcash/checkdaemon.sh") | crontab -
 fi
 
 # Create a cronjob for clearing the log file
-if ! crontab -l | grep "~/masternode/geekcash/clearlog.sh"; then
+if ! crontab -l | grep "masternode/geekcash/clearlog.sh"; then
   (crontab -l ; echo "0 0 */2 * * $HOMEFOLDER/masternode/geekcash/clearlog.sh") | crontab -
 fi
 
 # Create a cronjob for sentinel 
-if ! crontab -l | grep "~/.geekcash/sentinel"; then
+if ! crontab -l | grep ".geekcash/sentinel"; then
   (crontab -l ; echo -e "* * * * * cd $HOMEFOLDER/.geekcash/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1") | crontab -
 fi
 
