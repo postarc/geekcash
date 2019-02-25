@@ -80,7 +80,7 @@ rm /usr/local/bin/geekcashd
 rm /usr/local/bin/geekcash-cli
 fi
 if [ -f "/usr/bin/geekcashd" ]; then
-    echo -e "\e[32mBin files exist, skipping copy\e[0m"
+    echo -e "Bin files exist, skipping copy."
 else
         echo -e "\e[32mGeekCash downloading...\e[0m"
         echo "get and unzip..."
