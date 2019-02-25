@@ -16,8 +16,8 @@ else
         HOMEFOLDER="/home/$USER"
 fi
 
-sudo apt-get install -y curl
-sudo apt-get install -y lsof
+sudo apt-get install -y curl >/dev/null 2>&1
+sudo apt-get install -y lsof >/dev/null 2>&1
 
 while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPCPORT)" ]
 do
