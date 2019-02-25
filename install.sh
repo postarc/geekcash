@@ -110,7 +110,7 @@ if [[ "$ERROR" -gt "0" ]]; then echo -n "Daemon starting, please wait ...."; fi
 while [ "$ERROR" -gt "0" ] && [ "$TRYCOUNT" -gt "0" ]
 do
   sleep $WAITP
- _nodePrivateKey=$(geekcash-cli masternode genkey)
+ _nodePrivateKey=$(geekcash-cli masternode genkey) >/dev/null 2>&1
   ERROR=$?
     if [ "$ERROR" -gt "0" ];  then
       echo -n "."
