@@ -34,9 +34,9 @@ if [[ $EUID -eq 0 ]] && [ "$USER" != "root" ]; then
    echo -e "${RED}$0 must be run whithout sudo.${NC}"
    exit 1
 fi 
-
+cd
 while true; do
- if [ -d ~/.geekcash ]; then
+ if [ -d .geekcash ]; then
    printf "~/.geekcash/ already exists! The installer will delete this folder. Continue anyway?(Y/n):"
    read REPLY
    if [ "$REPLY" == "y" ] || [ "$REPLY" == "" ] || [ "$REPLY" == "Y" ]; then
@@ -50,7 +50,6 @@ while true; do
    fi
  fi
 done
-cd
 mkdir .geekcash
 
 # The RPC node will only accept connections from your localhost
