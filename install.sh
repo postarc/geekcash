@@ -124,8 +124,8 @@ if [[ -z "$_nodePrivateKey" ]]; then
    echo -e "${GREEN}$COIN_NAME server couldn not start."
    exit 1
   fi
-ERROR=0
-if [[ "$ERROR" -gt "0" ]]; then echo -n "Daemon starting, please wait ...."; fi
+ERROR=""
+if [[ "$ERROR" -gt "0" ]]; then echo -n "Daemon initialized, please wait ..."; fi
 while [ "$ERROR" -gt "0" ] && [ "$TRYCOUNT" -gt "0" ]
   do
   sleep $WAITP
