@@ -221,12 +221,13 @@ chmod 0700 ./checkdaemon.sh
 chmod 0700 ./clearlog.sh
 
 # Firewall security measures
-sudo apt install ufw -y
-sudo ufw allow $PORT/tcp
-sudo ufw allow $RPCPORT/tcp
-sudo ufw allow ssh
-sudo ufw logging on
-sudo ufw default allow outgoing
+echo "Install firewall & adding firewalls rules..."
+sudo apt install ufw -y >/dev/null 2>&1
+sudo ufw allow $PORT/tcp >/dev/null 2>&1
+sudo ufw allow $RPCPORT/tcp >/dev/null 2>&1
+sudo ufw allow ssh >/dev/null 2>&1
+sudo ufw logging on >/dev/null 2>&1
+sudo ufw default allow outgoing >/dev/null 2>&1
 sudo ufw --force enable
 
 # Start GeekCash Deamon
