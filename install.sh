@@ -153,9 +153,12 @@ cp geekcash/clearlog.sh masternode/geekcash
 
 #Sentinel installing
 echo -e "\e[32mSentinel installing...\e[0m"
-sudo apt-get update >/dev/null 2>&1
-sudo apt-get install python >/dev/null 2>&1
-sudo apt-get -y install python-virtualenv >/dev/null 2>&1
+sudo apt-get update 
+#>/dev/null 2>&1
+sudo apt-get install python 
+#>/dev/null 2>&1
+sudo apt-get -y install python-virtualenv 
+#>/dev/null 2>&1
 
 cd ~ && cd .geekcash
 git clone https://github.com/geekcash/sentinel.git && cd sentinel
