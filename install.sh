@@ -155,7 +155,7 @@ cp geekcash/clearlog.sh masternode/geekcash
 echo -e "\e[32mSentinel installing...\e[0m"
 sudo apt-get update 
 #>/dev/null 2>&1
-sudo apt-get install python 
+sudo apt-get -y install python 
 #>/dev/null 2>&1
 sudo apt-get -y install python-virtualenv 
 #>/dev/null 2>&1
