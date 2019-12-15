@@ -40,7 +40,7 @@ if [ -d .geekcash ]; then
    read REPLY
    if [ "$REPLY" == "y" ] || [ "$REPLY" == "" ] || [ "$REPLY" == "Y" ]; then
 	pID=$(ps -u $USER -e | grep geekcashd | awk '{print $1}')
-	if [ pID ]; then sudo kill ${pID} && sleep 5; fi
+	if [ $pID ]; then sudo kill ${pID} && sleep 5; fi
 	rm -rf ~/.geekcash
    fi
 fi
