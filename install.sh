@@ -39,8 +39,8 @@ if [ -d .geekcash ]; then
    printf "~/.geekcash/ already exists! The installer will delete this folder. Continue anyway?(Y/n):"
    read REPLY
    if [ "$REPLY" == "y" ] || [ "$REPLY" == "" ] || [ "$REPLY" == "Y" ]; then
-	pID=$(ps -u $USER -ef | grep geekcashd | awk '{print $2}')
-	sudo kill ${pID} && sleep 5
+	pID=$(ps -u $USER -e | grep geekcashd | awk '{print $1}')
+	if [ pID ]; then sudo kill ${pID} && sleep 5; fi
 	rm -rf ~/.geekcash
    fi
 fi
