@@ -53,7 +53,7 @@ _rpcUserName=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12 ; echo '')
 _rpcPassword=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo '')
 
 # Get the IP address of your vps which will be hosting the masternode
-apt install curl -y
+sudo apt install curl -y
 _nodeIpAddress=`curl ifconfig.me/ip`
 #_nodeIpAddress=$(curl -s 4.icanhazip.com)
 if [[ ${_nodeIpAddress} =~ ^[0-9]+.[0-9]+.[0-9]+.[0-9]+$ ]]; then
