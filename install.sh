@@ -78,7 +78,7 @@ else
         echo "get and unzip..."
         mkdir temp
         cd temp
-        wget $BINADDR 
+        wget $BINADDR
         tar -xzvf $BINTAR
         #curl -LJO $BINADDR
         #tar -xzvf $BINTAR
