@@ -86,6 +86,7 @@ else
         sudo bash -c "cp ./$BPATH/geekcashd /usr/bin/"
         sudo bash -c "cp ./$BPATH/geekcash-cli /usr/bin/"
         sudo chmod +x /usr/bin/geekcash*
+	cd ..
         rm -rf temp
 fi 
 
