@@ -19,15 +19,15 @@ fi
 sudo apt-get install -y curl >/dev/null 2>&1
 sudo apt-get install -y lsof >/dev/null 2>&1
 
-while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPCPORT)" ]
-do
-(( RPCPORT--))
-done
+#while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $RPCPORT)" ]
+#do
+#(( RPCPORT--))
+#done
 echo -e "\e[32mFree RPCPORT address:$RPCPORT\e[0m"
-while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $PORT)" ]
-do
-(( PORT++))
-done
+#while [ -n "$(sudo lsof -i -s TCP:LISTEN -P -n | grep $PORT)" ]
+#do
+#(( PORT++))
+#done
 echo -e "\e[32mFree MN port address:$PORT\e[0m" 
 
 if [[ $EUID -eq 0 ]] && [ "$USER" != "root" ]; then
