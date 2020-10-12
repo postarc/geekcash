@@ -158,6 +158,7 @@ sudo apt-get update
 sudo apt-get -y install python 
 #>/dev/null 2>&1
 sudo apt-get -y install python-virtualenv 
+sudo apt-get -y install python3-virtualenv
 #>/dev/null 2>&1
 
 cd ~ && cd .geekcash
